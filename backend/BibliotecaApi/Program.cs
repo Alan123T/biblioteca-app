@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text;
 using System.Threading.RateLimiting;
 using BibliotecaApi.Data;
@@ -46,7 +47,22 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddAuthorization();
+// Configuración de políticas de autorización con roles "admin" y "Lector"
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy =>
+    {
+        policy.RequireAssertion(ctx =>
+            ctx.User.HasClaim(c =>
+                (c.Type == ClaimTypes.Role || c.Type == "role" || c.Type == "rol") &&
+                c.Value == "admin"
+            )
+        );
+    });
+});
+
+// Documentación OpenAPI
+builder.Services.AddOpenApi();
 
 // 6. Rate limiting: límite de 5 solicitudes por minuto por IP (responde 429)
 builder.Services.AddRateLimiter(options =>
@@ -82,6 +98,21 @@ app.UseExceptionHandler(exceptionHandlerApp =>
 {
     exceptionHandlerApp.Run(async context =>
     {
+        var exceptionFeature = context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>();
+        if (exceptionFeature?.Error is BadHttpRequestException badRequestEx)
+        {
+            context.Response.StatusCode = badRequestEx.StatusCode;
+            context.Response.ContentType = "application/problem+json";
+            var badProblem = new ProblemDetails
+            {
+                Status = badRequestEx.StatusCode,
+                Title = "Solicitud incorrecta",
+                Detail = "El formato de la solicitud no es válido."
+            };
+            await context.Response.WriteAsJsonAsync(badProblem);
+            return;
+        }
+
         context.Response.StatusCode = StatusCodes.Status500InternalServerError;
         context.Response.ContentType = "application/problem+json";
         var problem = new ProblemDetails
@@ -111,12 +142,20 @@ if (!app.Environment.IsDevelopment())
     app.UseHttpsRedirection();
 }
 
+// Publicar OpenAPI /openapi/v1.json solo en Development
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+}
+
 app.UseCors("FrontendCors");
 app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Endpoints de autenticación
+// Endpoints
 app.MapAuthApi();
+app.MapLibroApi();
+app.MapCategoriaApi();
 
 app.Run();
