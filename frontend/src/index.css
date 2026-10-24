@@ -1,16 +1,22 @@
-/* Estilos mobile-first: la base es para móvil (desde 320 px) y se amplía con min-width. */
+/* Estilos mobile-first: la base es para móvil (desde 320 px) y se amplía con min-width.
+   Paleta: papel crema, tinta oscura y un verde de biblioteca como único color de acento.
+   Todos los pares de colores de texto cumplen un contraste de al menos 4.5:1. */
 :root {
-  --texto: #1b1f23;
-  --suave: #4a5560;
-  --fondo: #f4f6f8;
-  --superficie: #ffffff;
-  --primario: #0b5cad;
-  --primario-oscuro: #084680;
-  --peligro: #b3261e;
-  --ok: #1e6b34;
-  --info: #0b4f8a;
-  --borde-control: #6b7785;
-  --borde-suave: #c5ccd3;
+  --papel: #f5f1e8;
+  --superficie: #fffdf9;
+  --tinta: #221f1a;
+  --suave: #5a5448;
+  --verde: #1f4d3a;
+  --verde-oscuro: #163a2b;
+  --peligro: #9b2c1f;
+  --peligro-oscuro: #7a2218;
+  --ok: #1e5a32;
+  --info: #1f4a6e;
+  --activo: #e6dfcf;
+  --hover: #ece5d4;
+  --borde: #cfc6b3;
+  --borde-control: #7a7261;
+  --serif: Georgia, 'Times New Roman', serif;
 }
 
 *,
@@ -22,14 +28,15 @@
 html {
   font-size: 100%;
   -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 1rem;
 }
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
-  line-height: 1.5;
-  color: var(--texto);
-  background: var(--fondo);
+  font-family: 'Segoe UI', system-ui, -apple-system, Roboto, Arial, sans-serif;
+  line-height: 1.55;
+  color: var(--tinta);
+  background: var(--papel);
   overflow-wrap: anywhere;
 }
 
@@ -41,16 +48,17 @@ body {
 
 h1,
 h2 {
-  line-height: 1.25;
+  font-family: var(--serif);
+  line-height: 1.2;
   margin: 0 0 0.5rem;
 }
 
 h1 {
-  font-size: 1.6rem;
+  font-size: 1.75rem;
 }
 
 h2 {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
 }
 
 p {
@@ -58,13 +66,14 @@ p {
 }
 
 a {
-  color: var(--primario);
+  color: var(--verde);
+  text-underline-offset: 0.2em;
 }
 
 /* Foco siempre visible para quien navega con teclado. */
 :focus-visible {
-  outline: 3px solid var(--primario);
-  outline-offset: 2px;
+  outline: 3px solid var(--tinta);
+  outline-offset: 3px;
 }
 
 h1:focus,
@@ -79,8 +88,7 @@ main:focus {
   z-index: 10;
   padding: 0.75rem 1rem;
   background: var(--superficie);
-  border: 2px solid var(--primario);
-  border-radius: 0.5rem;
+  border: 2px solid var(--tinta);
   font-weight: 600;
 }
 
@@ -97,29 +105,31 @@ main:focus {
 
 /* Cabecera */
 .cabecera {
-  background: var(--superficie);
-  border-bottom: 1px solid var(--borde-suave);
+  border-bottom: 3px double var(--tinta);
 }
 
 .barra {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem 1rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  gap: 0.25rem 1.5rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
 }
 
 .marca {
   margin: 0;
-  font-size: 1.25rem;
+  font-family: var(--serif);
+  font-size: 1.5rem;
   font-weight: 700;
+  font-style: italic;
+  letter-spacing: -0.01em;
 }
 
 .menu {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.25rem;
+  gap: 0 0.5rem;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -130,23 +140,31 @@ main:focus {
   align-items: center;
   min-height: 2.75rem;
   min-width: 2.75rem;
-  padding: 0.25rem 0.75rem;
-  border-radius: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  color: var(--tinta);
   font-weight: 600;
   text-decoration: none;
 }
 
-.menu a[aria-current='page'] {
-  background: #e3effb;
+.menu a:hover {
+  color: var(--verde);
   text-decoration: underline;
+  text-underline-offset: 0.35em;
+}
+
+.menu a[aria-current='page'] {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.35em;
 }
 
 .sesion {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem 0.75rem;
+  gap: 0.25rem 0.75rem;
   width: 100%;
+  font-size: 0.95rem;
 }
 
 .sesion p {
@@ -155,12 +173,12 @@ main:focus {
 
 main {
   flex: 1;
-  padding: 1rem 0 2rem;
+  padding: 1.5rem 0 3rem;
 }
 
 .pie {
   padding: 1rem 0;
-  border-top: 1px solid var(--borde-suave);
+  border-top: 1px solid var(--borde);
   color: var(--suave);
   font-size: 0.9rem;
 }
@@ -172,9 +190,9 @@ main {
 /* Paneles y encabezados de página */
 .panel {
   background: var(--superficie);
-  border: 1px solid var(--borde-suave);
-  border-radius: 0.75rem;
-  padding: 1rem;
+  border: 1px solid var(--borde);
+  border-radius: 2px;
+  padding: 1.25rem;
 }
 
 .panel-angosto {
@@ -187,7 +205,7 @@ main {
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
 }
 
 .encabezado-pagina h1 {
@@ -202,9 +220,9 @@ main {
   min-height: 2.75rem;
   min-width: 2.75rem;
   padding: 0.5rem 1rem;
-  border: 2px solid var(--primario);
-  border-radius: 0.5rem;
-  background: var(--primario);
+  border: 2px solid var(--verde);
+  border-radius: 3px;
+  background: var(--verde);
   color: #ffffff;
   font: inherit;
   font-weight: 600;
@@ -213,18 +231,19 @@ main {
 }
 
 .boton:hover {
-  background: var(--primario-oscuro);
-  border-color: var(--primario-oscuro);
+  background: var(--verde-oscuro);
+  border-color: var(--verde-oscuro);
 }
 
 .boton-secundario {
-  background: var(--superficie);
-  color: var(--primario);
+  background: transparent;
+  color: var(--verde);
 }
 
 .boton-secundario:hover {
-  background: #e3effb;
-  color: var(--primario-oscuro);
+  background: var(--hover);
+  border-color: var(--verde-oscuro);
+  color: var(--verde-oscuro);
 }
 
 .boton-peligro {
@@ -233,12 +252,12 @@ main {
 }
 
 .boton-peligro:hover {
-  background: #8c1d18;
-  border-color: #8c1d18;
+  background: var(--peligro-oscuro);
+  border-color: var(--peligro-oscuro);
 }
 
 .boton:disabled {
-  opacity: 0.6;
+  opacity: 0.55;
   cursor: not-allowed;
 }
 
@@ -267,9 +286,9 @@ select {
   min-height: 2.75rem;
   padding: 0.5rem 0.75rem;
   border: 2px solid var(--borde-control);
-  border-radius: 0.5rem;
+  border-radius: 3px;
   background: var(--superficie);
-  color: var(--texto);
+  color: var(--tinta);
   font: inherit;
 }
 
@@ -296,12 +315,11 @@ select[aria-invalid='true'] {
 
 .filtros {
   display: grid;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-  padding: 1rem;
-  background: var(--superficie);
-  border: 1px solid var(--borde-suave);
-  border-radius: 0.75rem;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--borde);
+  border-bottom: 1px solid var(--borde);
 }
 
 .filtros .campo {
@@ -312,8 +330,9 @@ select[aria-invalid='true'] {
 .aviso {
   margin: 0.75rem 0;
   padding: 0.75rem 1rem;
-  border: 2px solid;
-  border-radius: 0.5rem;
+  border: 1px solid;
+  border-left-width: 5px;
+  border-radius: 2px;
   background: var(--superficie);
 }
 
@@ -323,7 +342,7 @@ select[aria-invalid='true'] {
 
 .aviso-error {
   border-color: var(--peligro);
-  color: #8c1d18;
+  color: var(--peligro);
 }
 
 .aviso-ok {
@@ -346,7 +365,7 @@ select[aria-invalid='true'] {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
-  margin: 0 0 1rem;
+  margin: 0 0 1.5rem;
   padding: 0;
   list-style: none;
 }
@@ -354,10 +373,14 @@ select[aria-invalid='true'] {
 .tarjeta {
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  padding: 1rem 1.1rem;
   background: var(--superficie);
-  border: 1px solid var(--borde-suave);
-  border-radius: 0.75rem;
+  border: 1px solid var(--borde);
+  border-radius: 2px;
+}
+
+.tarjeta h2 {
+  margin-bottom: 0.1rem;
 }
 
 .tarjeta .acciones {
@@ -366,31 +389,37 @@ select[aria-invalid='true'] {
 }
 
 .autor {
+  margin-bottom: 0.75rem;
   color: var(--suave);
+  font-style: italic;
 }
 
 .datos {
   display: grid;
-  gap: 0.25rem;
+  gap: 0.2rem;
   margin: 0;
 }
 
 .datos div {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem 0.5rem;
+  display: grid;
+  grid-template-columns: 6rem 1fr;
+  gap: 0 0.5rem;
+  align-items: baseline;
 }
 
 .datos dt {
-  font-weight: 600;
-}
-
-.datos dt::after {
-  content: ':';
+  color: var(--suave);
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .datos dd {
   margin: 0;
+}
+
+.datos-detalle div {
+  grid-template-columns: 11rem 1fr;
 }
 
 .paginacion {
@@ -418,19 +447,20 @@ select[aria-invalid='true'] {
 .dialogo {
   width: min(32rem, calc(100vw - 2rem));
   padding: 1.25rem;
-  border: 2px solid var(--borde-control);
-  border-radius: 0.75rem;
-  color: var(--texto);
+  border: 2px solid var(--tinta);
+  border-radius: 2px;
+  background: var(--superficie);
+  color: var(--tinta);
 }
 
 .dialogo::backdrop {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(34, 31, 26, 0.6);
 }
 
 /* Tableta */
 @media (min-width: 40rem) {
   h1 {
-    font-size: 1.9rem;
+    font-size: 2.1rem;
   }
 
   .tarjetas {
@@ -452,7 +482,7 @@ select[aria-invalid='true'] {
   }
 
   .panel {
-    padding: 1.5rem;
+    padding: 1.75rem;
   }
 }
 

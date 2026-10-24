@@ -1,0 +1,25 @@
+﻿
+> biblioteca-frontend@1.0.0 test
+> vitest run
+
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mC:/Users/yazmi/Documents/biblioteca-app/frontend[39m
+
+ [32mÔ£ô[39m src/test/httpClient.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 210[2mms[22m[39m
+ [32mÔ£ô[39m src/test/roles.test.tsx [2m([22m[2m5 tests[22m[2m)[22m[33m 481[2mms[22m[39m
+ [32mÔ£ô[39m src/test/accesibilidad.test.tsx [2m([22m[2m6 tests[22m[2m)[22m[33m 1129[2mms[22m[39m
+   [33m[2mÔ£ô[22m[39m Accesibilidad (axe-core)[2m > [22mel listado de libros (admin) no tiene violaciones [33m 306[2mms[22m[39m
+ [32mÔ£ô[39m src/test/auth.test.tsx [2m([22m[2m9 tests[22m[2m)[22m[33m 2387[2mms[22m[39m
+   [33m[2mÔ£ô[22m[39m Autenticaci├│n[2m > [22mmuestra un error cuando las credenciales son inv├ílidas [33m 693[2mms[22m[39m
+   [33m[2mÔ£ô[22m[39m Autenticaci├│n[2m > [22minicia sesi├│n y muestra el listado de libros [33m 615[2mms[22m[39m
+   [33m[2mÔ£ô[22m[39m Autenticaci├│n[2m > [22mcrea una cuenta y lleva al login con un aviso [33m 798[2mms[22m[39m
+ [32mÔ£ô[39m src/test/libros.test.tsx [2m([22m[2m17 tests[22m[2m)[22m[33m 4539[2mms[22m[39m
+   [33m[2mÔ£ô[22m[39m Crear, editar y eliminar libros (admin)[2m > [22mcrea un libro y muestra su detalle [33m 1075[2mms[22m[39m
+   [33m[2mÔ£ô[22m[39m Crear, editar y eliminar libros (admin)[2m > [22mmuestra junto al campo los errores de validaci├│n que devuelve la API (400) [33m 688[2mms[22m[39m
+   [33m[2mÔ£ô[22m[39m Crear, editar y eliminar libros (admin)[2m > [22medita un libro existente [33m 764[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m5 passed[39m[22m[90m (5)[39m
+[2m      Tests [22m [1m[32m46 passed[39m[22m[90m (46)[39m
+[2m   Start at [22m 17:33:23
+[2m   Duration [22m 62.99s[2m (transform 2.15s, setup 109.69s, collect 17.12s, tests 8.75s, environment 154.97s, prepare 7.64s)[22m
+

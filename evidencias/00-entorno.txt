@@ -1,0 +1,5 @@
+﻿Fecha: 2026-10-21 17:31
+dotnet: 10.0.402
+node: v20.12.0
+npm: 10.5.0
+git: git version 2.56.0.windows.2

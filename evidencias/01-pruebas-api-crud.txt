@@ -1,0 +1,30 @@
+﻿Evidencias de pruebas API Biblioteca - 2026-10-20 20:38
+== Compilando ==
+== API levantada. Iniciando pruebas ==
+== Libros ==
+[OK] a) GET libros sin token -> esperado 401, obtenido 401 
+[OK] b) lector lista libros page=1&pageSize=3 -> esperado 200, obtenido 200 {"items":[{"idLibro":8,"titulo":"Así habló Zaratustra","autor":"Friedrich Nietzsche","isbn":"9788420675398","anio":1883,"stock":6,"idCategoria":4,"cat...
+    total=8, items=3
+[OK] c) lector busca q=quijote -> esperado 200, obtenido 200 {"items":[{"idLibro":2,"titulo":"Don Quijote de la Mancha","autor":"Miguel de Cervantes","isbn":"9788424116286","anio":1605,"stock":5,"idCategoria":1,...
+    items=1
+[OK] d) lector pide pageSize=1000 -> esperado 200, obtenido 200 {"items":[{"idLibro":8,"titulo":"Así habló Zaratustra","autor":"Friedrich Nietzsche","isbn":"9788420675398","anio":1883,"stock":6,"idCategoria":4,"cat...
+    pageSize devuelto=50
+[OK] e) lector intenta POST libro -> esperado 403, obtenido 403 
+[OK] f) admin crea libro -> esperado 201, obtenido 201 {"idLibro":10,"titulo":"Libro de prueba","autor":"Autor Prueba","isbn":"1234567890","anio":2020,"stock":3,"idCategoria":1,"categoria":"Ficción"}
+[OK] g1) admin POST stock -1 -> esperado 400, obtenido 400 {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"Stock":["El sto...
+[OK] g2) admin POST idCategoria 999 -> esperado 400, obtenido 400 {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"IdCategoria":["...
+[OK] h1) admin PUT libro creado -> esperado 200, obtenido 200 {"idLibro":10,"titulo":"Libro de prueba editado","autor":"Autor Prueba","isbn":"1234567890","anio":2021,"stock":5,"idCategoria":2,"categoria":"Ciencia...
+[OK] h2) admin PUT id inexistente -> esperado 404, obtenido 404 {"mensaje":"No se encontró el libro con ID 99999."}
+[OK] i1) lector DELETE libro -> esperado 403, obtenido 403 
+[OK] i2) admin DELETE libro -> esperado 204, obtenido 204 
+[OK] i3) admin DELETE otra vez -> esperado 404, obtenido 404 {"mensaje":"No se encontró el libro con ID 10."}
+== Categorias ==
+[OK] j1) lector lista categorias -> esperado 200, obtenido 200 [{"idCategoria":2,"nombre":"Ciencia y Tecnología"},{"idCategoria":1,"nombre":"Ficción"},{"idCategoria":4,"nombre":"Filosofía"},{"idCategoria":3,"nombr...
+[OK] j2) lector POST categoria -> esperado 403, obtenido 403 
+[OK] k1) admin crea categoria Arte -> esperado 201, obtenido 201 {"idCategoria":6,"nombre":"Arte"}
+[OK] k2) admin repite Arte -> esperado 409, obtenido 409 {"mensaje":"Ya existe una categoría con ese nombre."}
+[OK] k3) admin DELETE Arte -> esperado 204, obtenido 204 
+[OK] l) admin DELETE categoria 1 con libros -> esperado 409, obtenido 409 {"mensaje":"No se puede eliminar la categoría porque tiene libros asociados."}
+
+== Fin. Pruebas con falla: 0 ==
+Resultado guardado en C:\Users\yazmi\Documents\biblioteca-app\evidencias-api.txt

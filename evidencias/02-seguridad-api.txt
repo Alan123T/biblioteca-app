@@ -1,0 +1,60 @@
+﻿Evidencias de seguridad de la API - 2026-10-21 17:31
+API probada: https://localhost:7237
+
+== 1. Autenticacion (API2: Broken Authentication) ==
+[OK] Acceso sin token -> esperado 401, obtenido 401
+[OK] Token invalido -> esperado 401, obtenido 401
+[OK] Token con la firma manipulada -> esperado 401, obtenido 401
+[OK] Login con clave incorrecta (mensaje generico) -> esperado 401, obtenido 401 {"mensaje":"Credenciales inválidas"}
+
+== 2. Autorizacion por rol (API5: Broken Function Level Authorization) ==
+[OK] Lector intenta crear un libro -> esperado 403, obtenido 403
+[OK] Lector intenta eliminar un libro -> esperado 403, obtenido 403
+[OK] Lector intenta crear una categoria -> esperado 403, obtenido 403
+[OK] Admin crea un libro (si tiene permiso) -> esperado 201, obtenido 201
+[OK] Admin elimina el libro de prueba -> esperado 204, obtenido 204
+
+== 3. Asignacion masiva de rol en el registro (API3: Broken Object Property Level Authorization) ==
+[OK] Registro enviando rol=admin -> esperado 201, obtenido 201 {"idUsuario":4,"nombreUsuario":"intruso_8406"}
+[OK] La respuesta no expone el hash de la contrasena -> la respuesta solo trae id y nombre
+[OK] El usuario creado con rol=admin quedo como Lector -> obtenido 200 {"nombre":"intruso_8406","rol":"Lector"}
+[OK] Ese usuario no puede crear libros -> esperado 403, obtenido 403
+
+== 4. CORS (API8: Security Misconfiguration) ==
+[OK] Origen permitido (http://localhost:5173) -> la respuesta incluye Access-Control-Allow-Origin
+[OK] Origen NO permitido (http://sitio-malicioso.example) -> la respuesta no incluye Access-Control-Allow-Origin, el navegador bloquea la lectura
+
+== 5. Cabeceras de seguridad y datos expuestos (API8) ==
+[OK] X-Content-Type-Options: nosniff -> presente
+[OK] X-Frame-Options: DENY -> presente
+[OK] Referrer-Policy -> presente
+[OK] Content-Security-Policy -> presente
+[OK] La cabecera Server no se expone -> ausente
+[OK] Cuerpo malformado no revela detalles internos -> codigo 429, respuesta: 
+
+== 6. Inyeccion y consumo de recursos (API4 / Top 10 web: Injection) ==
+[OK] Busqueda con ' OR 1=1 -- se trata como texto -> codigo 200, total de resultados: 0
+[OK] pageSize=100000 se limita -> pageSize devuelto: 50
+
+== 7. Limite de tasa en login (API4: Unrestricted Resource Consumption) ==
+   Codigos de 8 intentos seguidos: 401, 401, 401, 401, 401, 429, 429, 429
+[OK] Los intentos que superan el limite reciben 429 -> hay respuestas 429
+   (el limite se reinicia a los 60 segundos; hasta entonces el login del frontend respondera 429)
+
+== Pruebas de componentes del frontend (Vitest + Testing Library + MSW + axe) ==
+   npm test: termino bien. Salida completa en evidencias\03-frontend-pruebas.txt
+
+== Lint (ESLint con jsx-a11y) ==
+   npm run lint: termino bien. Salida completa en evidencias\04-frontend-lint.txt
+
+== Build de produccion ==
+   npm run build: termino bien. Salida completa en evidencias\05-frontend-build.txt
+
+== Auditoria de dependencias (solo produccion) ==
+   npm audit --omit=dev: termino bien. Salida completa en evidencias\06-npm-audit-produccion.txt
+
+== Auditoria de dependencias (completa) ==
+   npm audit: termino con codigo 1 (revisar el archivo). Salida completa en evidencias\07-npm-audit-completa.txt
+
+== Fin. Verificaciones de seguridad con falla: 0 ==
+Carpeta de evidencias: C:\Users\yazmi\Documents\biblioteca-app\evidencias
